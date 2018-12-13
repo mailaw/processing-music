@@ -1,15 +1,21 @@
-var colorValue = 70;
-var sample1, beat, box, drum, myPart;
+//SOUND VARS
+var sample, sample1, beat, box, drum, myPart;
+
+//PATTERNING
 var boxPat = [1,0,0,2,0,2,0,0];
 var drumPat = [0,1,1,0,2,0,1,0];
-var sample;
+
+
+//SENSOR VALUES
+var pitch_slider;
+var bpm_slider;
+var playing = false;
+var colorValue = 70;
 
 var wave;
 var button;
-var pitch_slider;
-var playing = false;
 
-//toggle buttons
+
 
 // The midi notes of a scale
 // C is 60, C# is 61, D is 62, 71 is A#, other C is 73
@@ -35,10 +41,10 @@ var autoplay = false;
 
 
 function preload() {
-  sample1 = loadSound('samples/DOLCE_VITA.wav');
-  drum = loadSound('samples/dolce_note.wav');
-  beat = loadSound('samples/yae_beat.wav');
-  box = loadSound('samples/yae_beat.wav');
+  sample1 = loadSound('samples/piano_trill.wav');
+  drum = loadSound('samples/hats.wav');
+  beat = loadSound('samples/beat_groove.wav');
+  box = loadSound('samples/Sonny_bright_note.wav');
   
 }
 
@@ -89,23 +95,13 @@ function setup() {
     
     var bpm_div = createDiv("BPM slider here ");
     bpm_div.id("bpm");
-    var bpm_slider = createSlider(0, 150, 90);
+    bpm_slider = createSlider(0, 160, 50);
     bpm_slider.parent("bpm");
     bpm_div.position(400,700);
     
     play_button = createButton('Play/Pause beat');
     play_button.mousePressed(toggle);
     play_button.position(100,630);
-    
- 
-    var boxPhrase = new p5.Phrase('box', playBox, boxPat);
-    var drumPhrase = new p5.Phrase('drum', playDrum, drumPat);
-    myPart = new p5.Part();
-    myPart.addPhrase(boxPhrase);
-    myPart.addPhrase(drumPhrase);
-    myPart.setBPM(60);
-    masterVolume(0.1);
-    
     
 }
   
@@ -141,6 +137,17 @@ function toggle(){
 }
 
 function draw() {    
+    var bpm_value = bpm_slider.value();
+    
+    var boxPhrase = new p5.Phrase('box', playBox, boxPat);
+    var drumPhrase = new p5.Phrase('drum', playDrum, drumPat);
+    myPart = new p5.Part();
+    myPart.addPhrase(boxPhrase);
+    myPart.addPhrase(drumPhrase);
+    myPart.setBPM(bpm_value);
+    masterVolume(0.1);
+    
+  
     //PITCH SHIFTER
     background(255, 191, 0);
     if (mouseButton == LEFT) {
