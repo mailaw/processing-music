@@ -28,6 +28,10 @@
 
 ✅Change BPM of beat 
 
+## **Demo Video**
+Got a musician friend to try it out because I do not have rhythm
+
+https://drive.google.com/open?id=1_tGo_S-Qq0IXZfcLatzr7LqulsRxR03p
 
 ## **How to use**
 - Connect Arduino Uno MIDI board to USB port
