@@ -242,7 +242,7 @@ function draw() {
   
   //DRUM TRACK
   //different drum samples
-  button(150,420,50,50, beat);
+  /*button(150,420,50,50, beat);
   button(240,420,50,50, drum);
   button(330,420,50,50, sample1);
     
@@ -287,7 +287,7 @@ function draw() {
   button(510,920,50,50, mi5,0);
   button(600,920,50,50, mi6,0);
   button(690,920,50,50, mi7,0);
-  button(780,920,50,50, mi8,0);
+  button(780,920,50,50, mi8,0);*/
   
 }
 
@@ -484,14 +484,14 @@ function keyPressed() {
     //return 0;
 }
 
-//TODO: Map more keys  to notes
+/*TODO: Map more keys  to notes
 function keyTyped(){
   if(key == 'a'){
      playNote(po5);
   } else if (key == 'a' && keyIsPressed == true){
     po5.loop();
   }
-}
+}*/
 
 function keyReleased(){
   if(key == 'a'){
