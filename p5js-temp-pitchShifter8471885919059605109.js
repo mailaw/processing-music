@@ -13,8 +13,8 @@ var bass_walk;
 var s_m, mi1, mi2, mi3, mi4, mi5, mi6, mi7, mi8;
 
 //PATTERNING
-var boxPat = [0,0,0,1,0,1,1,0];
-var drumPat = [1,0,0,0,1,0,0,0];
+var boxPat = [0,0,1,2,0,0,1];
+var drumPat = [1,1,1,1,1,1,0];
 var leadPat = [0,1,0,2,0,2,0,0];
 var followPat = [1,1,0,0,2,0,1,0];
 
@@ -53,9 +53,11 @@ var autoplay = false;
 
 function preload() {
   sample1 = loadSound('samples/piano_trill.wav');
-  drum = loadSound('samples/hats.wav');
+  drum = loadSound('samples/cymbal.wav');
   beat = loadSound('samples/beat_groove.wav');
-  box = loadSound('samples/Sonny_bright_note.wav');
+  //box = loadSound('samples/Sonny_bright_note.wav');
+  box = loadSound('samples/drum_heavy.wav');
+
   
   po1 = loadSound('samples/Poinciana_note_01.wav');
   po2 = loadSound('samples/Poinciana_note_02.wav');
