@@ -35,6 +35,7 @@
 - Select correct USB port where the Arduino is
 - Load Arduino_uno_midi_controller sketch
 - Open processing files(main file, index.html, p5.serialport)
+- Ensure that portname matches your usb port name
 - Run application in local browser
 - Jam!
 
@@ -45,3 +46,5 @@
 - Connect buttons in UI with MIDI event triggers so taht they are the same event
 - Attach varying sensors to the serial port
 - Ability to design beat patterns or switch between presets
+
+
