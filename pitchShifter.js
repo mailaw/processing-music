@@ -50,10 +50,10 @@ function preload() {
   
   po1 = loadSound('samples/Poinciana_note_01.wav');
   po2 = loadSound('samples/Poinciana_note_02.wav');
-  //po3 = loadSound('samples/Poinciana_note_03.wav');
-  //po4 = loadSound('samples/Poinciana_note_04.wav');
-  //po5 = loadSound('samples/Poinciana_note_05.wav');
-  //po6 = loadSound('samples/Poinciana_note_06.wav');
+  po3 = loadSound('samples/Poinciana_note_03.wav');
+  po4 = loadSound('samples/Poinciana_note_04.wav');
+  po5 = loadSound('samples/McCoy_piano.wav');
+  po6 = loadSound('samples/piano_trill.wav');
   
   gu1 = loadSound('samples/Sonny_note_01.wav');
   gu2 = loadSound('samples/Sonny_note_02.wav');
@@ -145,19 +145,6 @@ function draw() {
     notePart.setBPM(bpm_value);
     masterVolume(0.1);
     
-
-    //PITCH SHIFTER
-    background(255, 191, 0);
-    if (mouseButton == LEFT) {
-      fill(0);   // Black
-    }
-    else if (mouseButton == RIGHT) {
-      fill(255); // White
-    }
-    else {
-      fill(126); // Gray
-    }
-  
     //OSCILLATOR FREQUENCY according to mouse position
     //var freq = map(mouseX, 0, width, 40, 880);
     //wave.freq(freq);
@@ -230,6 +217,14 @@ function draw() {
   
   //BASS TRACK
   button(150, 620, 50,50, bass_walk,1);
+  
+  //PIANO TRACK
+  button(150,720,50,50, po1,0);
+  button(240,720,50,50, po2,0);
+  button(330,720,50,50, po3,0);
+  button(420,720,50,50, po4,0);
+  button(510,720,50,50, po5,0);
+  button(600,720,50,50, po6,0);
 }
 
 //MAKES A BUTTON
