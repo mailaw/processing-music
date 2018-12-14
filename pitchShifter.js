@@ -1,9 +1,12 @@
 //SOUND VARS
 var sample, sample1, beat, box, drum, myPart;
+var po1, po2, po3, po4, po5, po6;
 
 //PATTERNING
 var boxPat = [1,0,0,2,0,2,0,0];
 var drumPat = [0,1,1,0,2,0,1,0];
+var leadPat = [0,1,0,2,0,2,0,0];
+var followPat = [1,1,0,0,2,0,1,0];
 
 
 //SENSOR VALUES
@@ -14,7 +17,6 @@ var colorValue = 70;
 
 var wave;
 var button;
-
 
 
 // The midi notes of a scale
@@ -39,20 +41,26 @@ var song = [
 var trigger = 0;
 var autoplay = false;
 
-
 function preload() {
   sample1 = loadSound('samples/piano_trill.wav');
   drum = loadSound('samples/hats.wav');
   beat = loadSound('samples/beat_groove.wav');
   box = loadSound('samples/Sonny_bright_note.wav');
   
+  po1 = loadSound('samples/Poinciana_note_01.wav');
+  po2 = loadSound('samples/Poinciana_note_02.wav');
+  //po3 = loadSound('samples/Poinciana_note_03.wav');
+  //po4 = loadSound('samples/Poinciana_note_04.wav');
+  //po5 = loadSound('samples/Poinciana_note_05.wav');
+  //po6 = loadSound('samples/Poinciana_note_06.wav');
+  
 }
 
 function setup() {
     //CANVAS
     canvas = createCanvas(1100, 900);
-    canvas.position(100,200);
-    
+    canvas.position(135,200);
+
     //HEADER
     header = createP("H U M A N - S E N S O R - M U S I C");
     header.position(400,20);
@@ -84,16 +92,23 @@ function setup() {
     wave.start();
     wave.amp(0);
 
-    var pitch_div = createDiv("Pitch slider here");
+    //PITCH DIV
+
+   // var pitchText = createP("Pitch slider");
+   //pitchText.style("font-family:monospace; background-color:#FF0000; color:#FFFFFF; font-size:18pt; padding: 5px;");
+    
+    var pitch_div = createDiv('');
+    
     pitch_div.id("pitch");
-    var pitch_slider = createSlider(20, 200, 100); //starts at A note, fre between 100-1200
+    var pitch_slider = createSlider(20, 200, 120); //starts at A note, fre between 100-1200
     pitch_slider.parent("pitch");
-    pitch_div.position(100,700);
+    pitch_div.position(300,700);
+    //pitchText.parent("pitch");
     
     var pitch_info = createDiv("Use up & down arrows to adjust pitch");
     pitch_info.position(500,650);
     
-    var bpm_div = createDiv("BPM slider here ");
+    var bpm_div = createDiv("BPM slider");
     bpm_div.id("bpm");
     bpm_slider = createSlider(0, 160, 50);
     bpm_slider.parent("bpm");
@@ -101,40 +116,10 @@ function setup() {
     
     play_button = createButton('Play/Pause beat');
     play_button.mousePressed(toggle);
-    play_button.position(100,630);
+    play_button.position(300,630);
     
 }
   
-
-
-// KEYBOARD FUNCTION: A function to play a note
-function playNote(note, duration) {
-  wave.freq(midiToFreq(note));
-  // Fade it in
-  wave.fade(0.5,0.2);
-
-  // If we set a duration, fade it out
-  if (duration) {
-    setTimeout(function() {
-      wave.fade(0,0.2);
-    }, duration-50);
-  }
-}
-
-
-function toggle(){
-  if(!playing){
-    wave.amp(0.5, 1); //1 second fade in
-    playing = true;
-    myPart.loop()
-  } else {
-    //wave.stop();
-    wave.amp(0, 1);
-    playing = false;
-    myPart.stop();
-    
-  }
-}
 
 function draw() {    
     var bpm_value = bpm_slider.value();
@@ -147,7 +132,18 @@ function draw() {
     myPart.setBPM(bpm_value);
     masterVolume(0.1);
     
-  
+    var leadPhrase = new p5.Phrase('box', playLead, leadPat);
+    var followPhrase = new p5.Phrase('drum', playFollow, followPat);
+    notePart = new p5.Part();
+    notePart.addPhrase(leadPhrase);
+    notePart.addPhrase(followPhrase);
+    notePart.setBPM(bpm_value);
+    masterVolume(0.1);
+    
+    textSize(112);
+    fill(0, 102, 153);
+    text('word', 100, 100);
+
     //PITCH SHIFTER
     background(255, 191, 0);
     if (mouseButton == LEFT) {
@@ -159,9 +155,8 @@ function draw() {
     else {
       fill(126); // Gray
     }
-    //rect(40, 20, 40, 60);
   
-    //OSCILLATOR FREQUENCY
+    //OSCILLATOR FREQUENCY according to mouse position
     //var freq = map(mouseX, 0, width, 40, 880);
     //wave.freq(freq);
     // change oscillator frequency based on slider
@@ -232,6 +227,38 @@ var button = function(x,y,w,h, sampleSwitch){
   
 }
 
+
+
+// KEYBOARD FUNCTION: A function to play a note
+function playNote(note, duration) {
+  wave.freq(midiToFreq(note));
+  // Fade it in
+  wave.fade(0.5,0.2);
+
+  // If we set a duration, fade it out
+  if (duration) {
+    setTimeout(function() {
+      wave.fade(0,0.2);
+    }, duration-50);
+  }
+}
+
+
+function toggle(){
+  if(!playing){
+    wave.amp(0.5, 1); //1 second fade in
+    playing = true;
+    notePart.loop()
+  } else {
+    //wave.stop();
+    wave.amp(0, 1);
+    playing = false;
+    //myPart.stop();
+    notePart.stop();
+    
+  }
+}
+
 //SPECIFIES KEY ACTIONS
 function keyPressed() {
     sample1.stop();
@@ -247,6 +274,8 @@ function keyPressed() {
     return 0;
 }
 
+
+//PLAYING OF SAMPLES
 function playNotePitched(val, soundName){
   console.log(val);
   var speed = val/10;
@@ -256,7 +285,7 @@ function playNotePitched(val, soundName){
 }
 
 function playBeat(soundName){
-  soundName.setBPM(100);
+  soundName.setBPM(bpm_slider.value());
   soundName.loop();
   
 }
@@ -270,6 +299,17 @@ function playDrum(time, playbackRate) {
   drum.rate(playbackRate);
   drum.play(time);
 }
+ 
+function playLead(time, playbackRate) {
+  po1.rate(playbackRate);
+  po1.play(time);
+}
+
+function playFollow(time, playbackRate) {
+  po2.rate(playbackRate);
+  po2.play(time);
+}
+ 
  
 // KEYBOARD FUNCTION: When we click
 function mousePressed() {
